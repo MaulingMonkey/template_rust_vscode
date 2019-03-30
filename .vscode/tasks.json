@@ -1,0 +1,44 @@
+{
+    "version": "2.0.0",
+    "presentation": {
+        "clear": true,
+    },
+    "problemMatcher": ["$rustc"],
+    "type": "shell",
+    "options": {
+        "cwd": "${workspaceFolder}",
+    },
+    "tasks": [
+        // Tasks for multiple platforms that depend on ambient rust configuration.
+        { "group": "build", "label": "cargo [...]",             "command": "cargo ${input:cargo-args}" },
+        { "group": "build", "label": "cargo build",             "command": "cargo build" },
+        { "group": "build", "label": "cargo build --release",   "command": "cargo build --release" },
+        { "group": "build", "label": "cargo check",             "command": "cargo check" },
+        { "group": "build", "label": "cargo clean",             "command": "cargo clean" },
+        { "group": "build", "label": "cargo doc",               "command": "cargo doc" },
+        { "group": "test", "label": "cargo test",               "command": "cargo test" },
+        { "group": "test", "label": "cargo bench",              "command": "cargo bench" },
+
+        // Target specific windows builds.  Several of these will require you to run `rustup install target ...` per the `--target=...` flags bellow.
+        // MSVC builds will also require MSVC C++ tools installed.
+        { "group": "build", "label": "cargo build --target=x86_64-pc-windows-msvc",             "windows": { "command": "cargo +stable-pc-windows-msvc build --target=x86_64-pc-windows-msvc          " } },
+        { "group": "build", "label": "cargo build --target=x86_64-pc-windows-msvc --release",   "windows": { "command": "cargo +stable-pc-windows-msvc build --target=x86_64-pc-windows-msvc --release" } },
+        { "group": "build", "label": "cargo build --target=i686-pc-windows-msvc",               "windows": { "command": "cargo +stable-pc-windows-msvc build --target=i686-pc-windows-msvc            " } },
+        { "group": "build", "label": "cargo build --target=i686-pc-windows-msvc --release",     "windows": { "command": "cargo +stable-pc-windows-msvc build --target=i686-pc-windows-msvc   --release" } },
+        // GNU builds are nice and self contained thanks to the rust-mingw component
+        { "group": "build", "label": "cargo build --target=x86_64-pc-windows-gnu",              "windows": { "command": "cargo +stable-pc-windows-gnu build --target=x86_64-pc-windows-gnu           " } },
+        { "group": "build", "label": "cargo build --target=x86_64-pc-windows-gnu --release",    "windows": { "command": "cargo +stable-pc-windows-gnu build --target=x86_64-pc-windows-gnu  --release" } },
+        { "group": "build", "label": "cargo build --target=i686-pc-windows-gnu",                "windows": { "command": "cargo +stable-pc-windows-gnu build --target=i686-pc-windows-gnu             " } },
+        { "group": "build", "label": "cargo build --target=i686-pc-windows-gnu --release",      "windows": { "command": "cargo +stable-pc-windows-gnu build --target=i686-pc-windows-gnu    --release" } },
+        // Windows Subsystem for Linux specific builds
+        { "group": "build", "label": "WSL: cargo build",           "windows": { "command": "${env:windir}\\System32\\bash --login -c 'cargo build'" } },
+        { "group": "build", "label": "WSL: cargo build --release", "windows": { "command": "${env:windir}\\System32\\bash --login -c 'cargo build --release'" } },
+    ],
+    "inputs": [
+        {
+            "id": "cargo-args",
+            "type": "promptString",
+            "description": "Arbitrary options and subcommand for cargo."
+        },
+    ]
+}

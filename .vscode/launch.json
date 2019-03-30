@@ -1,0 +1,177 @@
+{
+    // https://github.com/Microsoft/vscode-cpptools/blob/master/launch.md
+    // More options to consider:
+    //  "showDisplayString": true           (natvis)
+    //  "visualizerFile": "..."             (custom natvis)
+
+    "version": "0.2.0",
+    "configurations": [
+        // Tasks for multiple platforms
+        {
+            "name": "Debug",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "preLaunchTask": "cargo build",
+            "cwd": "${workspaceRoot}",
+            "program": "${workspaceRoot}/target/debug/${workspaceFolderBasename}",
+            "windows": { "program": "${workspaceRoot}/target/debug/${workspaceFolderBasename}.exe" },
+            "externalConsole": false,
+            "internalConsoleOptions": "openOnSessionStart",
+        },
+        {
+            "name": "Release",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "preLaunchTask": "cargo build --release",
+            "cwd": "${workspaceRoot}",
+            "program": "${workspaceRoot}/target/release/${workspaceFolderBasename}",
+            "windows": { "program": "${workspaceRoot}/target/release/${workspaceFolderBasename}.exe" },
+            "externalConsole": false,
+            "internalConsoleOptions": "openOnSessionStart",
+        },
+
+
+
+        // Target specific
+        {
+            "name": "Debug x86_64-pc-windows-msvc",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "preLaunchTask": "cargo build --target=x86_64-pc-windows-msvc",
+            "cwd": "${workspaceRoot}",
+            "windows": { "program": "${workspaceRoot}/target/x86_64-pc-windows-msvc/debug/${workspaceFolderBasename}.exe" },
+            "externalConsole": false,
+            "internalConsoleOptions": "openOnSessionStart",
+        },
+        {
+            "name": "Debug x86_64-pc-windows-gnu",
+            "type": "cppdbg",
+            "request": "launch",
+            "MIMode": "gdb",
+            "preLaunchTask": "cargo build --target=x86_64-pc-windows-gnu",
+            "cwd": "${workspaceRoot}",
+            "windows": { "program": "${workspaceRoot}/target/x86_64-pc-windows-gnu/debug/${workspaceFolderBasename}.exe" },
+            "externalConsole": true,
+            "miDebuggerPath": "C:\\msys64\\mingw64\\bin\\gdb.exe",
+        },
+        {
+            "name": "Debug i686-pc-windows-msvc",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "preLaunchTask": "cargo build --target=i686-pc-windows-msvc",
+            "cwd": "${workspaceRoot}",
+            "windows": { "program": "${workspaceRoot}/target/i686-pc-windows-msvc/debug/${workspaceFolderBasename}.exe" },
+            "externalConsole": false,
+            "internalConsoleOptions": "openOnSessionStart",
+        },
+        {
+            "name": "Debug i686-pc-windows-gnu",
+            "type": "cppdbg",
+            "request": "launch",
+            "MIMode": "gdb",
+            "preLaunchTask": "cargo build --target=i686-pc-windows-gnu",
+            "cwd": "${workspaceRoot}",
+            "windows": { "program": "${workspaceRoot}/target/i686-pc-windows-gnu/debug/${workspaceFolderBasename}.exe" },
+            "externalConsole": true,
+            "miDebuggerPath": "C:\\msys64\\mingw64\\bin\\gdb.exe",
+        },
+        {
+            "name": "Release x86_64-pc-windows-msvc",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "preLaunchTask": "cargo build --target=x86_64-pc-windows-msvc --release",
+            "cwd": "${workspaceRoot}",
+            "windows": { "program": "${workspaceRoot}/target/x86_64-pc-windows-msvc/release/${workspaceFolderBasename}.exe" },
+            "externalConsole": false,
+            "internalConsoleOptions": "openOnSessionStart",
+        },
+        {
+            "name": "Release x86_64-pc-windows-gnu",
+            "type": "cppdbg",
+            "request": "launch",
+            "MIMode": "gdb",
+            "preLaunchTask": "cargo build --target=x86_64-pc-windows-gnu --release",
+            "cwd": "${workspaceRoot}",
+            "windows": { "program": "${workspaceRoot}/target/x86_64-pc-windows-gnu/release/${workspaceFolderBasename}.exe" },
+            "externalConsole": true,
+            "miDebuggerPath": "C:\\msys64\\mingw64\\bin\\gdb.exe",
+        },
+        {
+            "name": "Release i686-pc-windows-msvc",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "preLaunchTask": "cargo build --target=i686-pc-windows-msvc --release",
+            "cwd": "${workspaceRoot}",
+            "windows": { "program": "${workspaceRoot}/target/i686-pc-windows-msvc/release/${workspaceFolderBasename}.exe" },
+            "externalConsole": false,
+            "internalConsoleOptions": "openOnSessionStart",
+        },
+        {
+            "name": "Release i686-pc-windows-gnu",
+            "type": "cppdbg",
+            "request": "launch",
+            "MIMode": "gdb",
+            "preLaunchTask": "cargo build --target=i686-pc-windows-gnu --release",
+            "cwd": "${workspaceRoot}",
+            "windows": { "program": "${workspaceRoot}/target/i686-pc-windows-gnu/release/${workspaceFolderBasename}.exe" },
+            "externalConsole": true,
+            "miDebuggerPath": "C:\\msys64\\mingw64\\bin\\gdb.exe",
+        },
+
+
+
+        // WSL specific - https://github.com/Microsoft/vscode-cpptools/blob/master/Documentation/Debugger/gdb/Windows%20Subsystem%20for%20Linux.md
+        {
+            "name": "Debug [default]-unknown-linux-gnu (WSL)",
+            "type": "cppdbg",
+            "request": "launch",
+            "MIMode": "gdb",
+            "preLaunchTask": "WSL: cargo build",
+            "cwd": ".",
+            "windows": { "program": "target/debug/${workspaceFolderBasename}" },
+            "externalConsole": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "pipeTransport": {
+                "pipeCwd": "${workspaceRoot}",
+                "pipeProgram": "${env:windir}\\System32\\bash.exe",
+                "pipeArgs": ["--login", "-c"],
+                "pipeEnv": { "CHERE_INVOKING": "yes" },
+                "debuggerPath": "/usr/bin/gdb"
+            },
+            "sourceFileMap": {
+                "/mnt/a": "a:\\", "/mnt/b": "b:\\", "/mnt/c": "c:\\", "/mnt/d": "d:\\", "/mnt/e": "e:\\",
+                "/mnt/f": "f:\\", "/mnt/g": "g:\\", "/mnt/h": "h:\\", "/mnt/i": "i:\\", "/mnt/j": "j:\\",
+                "/mnt/k": "k:\\", "/mnt/l": "l:\\", "/mnt/m": "m:\\", "/mnt/n": "n:\\", "/mnt/o": "o:\\",
+                "/mnt/p": "p:\\", "/mnt/q": "q:\\", "/mnt/r": "r:\\", "/mnt/s": "s:\\", "/mnt/t": "t:\\",
+                "/mnt/u": "u:\\", "/mnt/v": "v:\\", "/mnt/w": "w:\\", "/mnt/x": "x:\\", "/mnt/y": "y:\\",
+                "/mnt/z": "z:\\",
+            }
+        },
+        {
+            "name": "Release [default]-unknown-linux-gnu (WSL)",
+            "type": "cppdbg",
+            "request": "launch",
+            "MIMode": "gdb",
+            "preLaunchTask": "WSL: cargo build --release",
+            "cwd": ".",
+            "windows": { "program": "target/release/${workspaceFolderBasename}" },
+            "externalConsole": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "pipeTransport": {
+                "pipeCwd": "${workspaceRoot}",
+                "pipeProgram": "${env:windir}\\System32\\bash.exe",
+                "pipeArgs": ["--login", "-c"],
+                "pipeEnv": { "CHERE_INVOKING": "yes" },
+                "debuggerPath": "/usr/bin/gdb"
+            },
+            "sourceFileMap": {
+                "/mnt/a": "a:\\", "/mnt/b": "b:\\", "/mnt/c": "c:\\", "/mnt/d": "d:\\", "/mnt/e": "e:\\",
+                "/mnt/f": "f:\\", "/mnt/g": "g:\\", "/mnt/h": "h:\\", "/mnt/i": "i:\\", "/mnt/j": "j:\\",
+                "/mnt/k": "k:\\", "/mnt/l": "l:\\", "/mnt/m": "m:\\", "/mnt/n": "n:\\", "/mnt/o": "o:\\",
+                "/mnt/p": "p:\\", "/mnt/q": "q:\\", "/mnt/r": "r:\\", "/mnt/s": "s:\\", "/mnt/t": "t:\\",
+                "/mnt/u": "u:\\", "/mnt/v": "v:\\", "/mnt/w": "w:\\", "/mnt/x": "x:\\", "/mnt/y": "y:\\",
+                "/mnt/z": "z:\\",
+            }
+        },
+    ]
+}
